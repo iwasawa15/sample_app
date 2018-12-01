@@ -22,7 +22,7 @@ class PasswordResetsController < ApplicationController
   def edit
   end
 
-  def udpate
+  def update
     if params[:user][:password].empty?
       @user.errors.add(:password, :blank)
       render 'edit'
@@ -42,11 +42,11 @@ class PasswordResetsController < ApplicationController
   end
 
   def get_user
-    @user = Userfind_by(email: params[:email])
+    @user = User.find_by(email: params[:email])
   end
 
   def valid_user
-    unless(@usr && @usr.activated? && @user.authenticated_(:reset, params[:id]))
+    unless(@user && @user.activated? && @user.authenticated?(:reset, params[:id]))
       redirect_to root_url
     end
   end
